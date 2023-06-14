@@ -5,11 +5,11 @@ import 'package:bikesterr/presentation/screens/home_screens/nearest_stations.dar
 import 'package:bikesterr/presentation/screens/home_screens/start_trip.dart';
 import 'package:bikesterr/presentation/screens/login.dart';
 import 'package:bikesterr/presentation/screens/home_screens/profile.dart';
-import 'package:bikesterr/presentation/screens/register.dart';
+import 'package:bikesterr/presentation/screens/signup.dart';
 import 'package:bikesterr/presentation/screens/review.dart';
 import 'package:bikesterr/presentation/screens/wallet.dart';
 //import 'package:bikesterr/presentation/screens/welcome.dart';
-import 'package:bikesterr/presentation/screens/welcome_screen.dart';
+import 'package:bikesterr/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(GetMaterialApp(
-    home: Review(),
+    home: WelcomeScreen(),
     //   stationModel: StationModel(
     //       address: "test",
     //       stationName: "test name",

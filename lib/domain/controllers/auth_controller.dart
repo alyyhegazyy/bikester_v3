@@ -13,7 +13,7 @@ class AuthController extends RxController {
   // final FirebaseAuthentication _firebaseAuthentication =
   //     FirebaseAuthentication();
 
-             // final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
 //   final _recaptchaVerifier = RecaptchaVerifier(
 //   container: 'recaptcha',
 //   size: RecaptchaVerifierSize.compact,

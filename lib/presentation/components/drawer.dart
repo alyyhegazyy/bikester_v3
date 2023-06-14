@@ -3,7 +3,7 @@ import 'package:bikesterr/presentation/screens/home_page.dart';
 import 'package:bikesterr/presentation/screens/home_screens/profile.dart';
 import 'package:bikesterr/presentation/screens/login.dart';
 import 'package:bikesterr/presentation/screens/wallet.dart';
-import 'package:bikesterr/presentation/screens/welcome_screen.dart';
+import 'package:bikesterr/presentation/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

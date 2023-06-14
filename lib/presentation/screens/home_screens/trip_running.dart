@@ -19,33 +19,33 @@ class _TripRunningState extends State<TripRunning> {
   late Position position;
   GoogleMapController? googleMapController;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
       ),
-
       body: Column(
-        children:  [
-          const Text("Trip running...", style: TextStyle(fontSize: 22, fontWeight:FontWeight.bold),),
+        children: [
+          const Text(
+            "Trip running...",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           ElevatedButton(
-              onPressed: (){
-                String url='https://www.google.com/maps/dir/?api=1&origin=${position.latitude.toString()},${position.longitude.toString()}&destination=${widget.destinationLoc.lat.toString()},${widget.destinationLoc.long.toString()}&travelmode=driving&dir_action=navigate';
+              onPressed: () {
+                String url =
+                    'https://www.google.com/maps/dir/?api=1&origin=${position.latitude.toString()},${position.longitude.toString()}&destination=${widget.destinationLoc.lat.toString()},${widget.destinationLoc.long.toString()}&travelmode=driving&dir_action=navigate';
                 _launchURL(url);
               },
-              style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.orange)),
+              style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.orange)),
               child: const Text('go to map')),
-
         ],
       ),
     );
   }
 
-  Future<void>_launchURL(String url) async {
-
+  Future<void> _launchURL(String url) async {
     Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -53,13 +53,10 @@ class _TripRunningState extends State<TripRunning> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("can\'t launch $url")));
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   Future<void> getPosition() async {
-
     position = await _determinePosition();
     googleMapController?.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -93,13 +90,14 @@ class _TripRunningState extends State<TripRunning> {
     }
 
     Position position = await Geolocator.getCurrentPosition();
-    StreamSubscription<Position> positionStream = Geolocator.getPositionStream().listen((pos) {
-      position= pos;
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream().listen((pos) {
+      position = pos;
     });
     return position;
   }
 
-  scanQR(){
+  scanQR() {
     double distance = Geolocator.distanceBetween(
       position.latitude,
       position.longitude,
@@ -107,19 +105,10 @@ class _TripRunningState extends State<TripRunning> {
       double.parse(widget.destinationLoc.long!),
     );
 
-    if (distance>50) {
-      Get.offAll( ScanQr(stationModel: widget.destinationLoc,));
+    if (distance > 50) {
+      Get.offAll(ScanQr(
+        stationModel: widget.destinationLoc,
+      ));
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-

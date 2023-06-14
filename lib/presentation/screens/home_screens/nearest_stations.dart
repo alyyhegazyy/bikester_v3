@@ -70,15 +70,17 @@ class _NearestStationState extends State<NearestStation> {
               onPressed: () {
                 print("QR button pressed ....");
                 Future.delayed(Duration.zero, () {
-                  Get.to(() => ScanQr(
-                        stationModel: model ??
-                            StationModel(
-                                address: "test",
-                                stationName: "test name",
-                                lat: "29.964914",
-                                long: "31.269994",
-                                availableBikes: "6"),
-                      ));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ScanQr(
+                      stationModel: model ??
+                          StationModel(
+                              address: "test",
+                              stationName: "test name",
+                              lat: "29.964914",
+                              long: "31.269994",
+                              availableBikes: "6"),
+                    );
+                  }));
                 });
               },
               backgroundColor: Colors.orange,

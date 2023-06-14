@@ -3,7 +3,7 @@ import 'package:bikesterr/presentation/components/appbar.dart';
 import 'package:bikesterr/presentation/components/custom_text_field.dart';
 import 'package:bikesterr/presentation/components/my_textfield.dart';
 import 'package:bikesterr/presentation/screens/home_screens/profile.dart';
-import 'package:bikesterr/presentation/screens/register.dart';
+import 'package:bikesterr/presentation/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -34,7 +34,8 @@ class _LoginState extends State<Login> {
         key: _formKey,
         child: Stack(children: [
           Container(
-            child: Lottie.network('https://assets6.lottiefiles.com/packages/lf20_zXGe10eVTT.json',
+            child: Lottie.network(
+                'https://assets6.lottiefiles.com/packages/lf20_zXGe10eVTT.json',
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.fill),
@@ -69,7 +70,6 @@ class _LoginState extends State<Login> {
                           return null;
                         },
                       ),
-
                       CustomTextField(
                         myController: passwordCont,
                         label: "password",
@@ -122,13 +122,16 @@ class _LoginState extends State<Login> {
                       const SizedBox(
                         height: 5,
                       ),
-                      CustomElevatedButton(color: Colors.orange,onPressed: () async{
-                        if (_formKey.currentState!.validate())  {
-                          await authCont.login(
-                              email: emailCont.text,
-                              password: passwordCont.text);
-                        }
-                      },textButton: 'Log In'),
+                      CustomElevatedButton(
+                          color: Colors.orange,
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              await authCont.login(
+                                  email: emailCont.text,
+                                  password: passwordCont.text);
+                            }
+                          },
+                          textButton: 'Log In'),
                       const SizedBox(
                         height: 5,
                       ),
@@ -141,10 +144,10 @@ class _LoginState extends State<Login> {
                           TextButton(
                             onPressed: () {
                               Get.to(() => Register());
-
                             },
                             child: const Text(
-                              "Sign up",style: TextStyle(color: Colors.orange),
+                              "Sign up",
+                              style: TextStyle(color: Colors.orange),
                             ),
                           ),
                         ],
