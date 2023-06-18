@@ -34,8 +34,7 @@ class _LoginState extends State<Login> {
         key: _formKey,
         child: Stack(children: [
           Container(
-            child: Lottie.network(
-                'https://assets6.lottiefiles.com/packages/lf20_zXGe10eVTT.json',
+            child: Lottie.asset('assets/bgAn.json',
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.fill),
@@ -143,7 +142,12 @@ class _LoginState extends State<Login> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.to(() => Register());
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const Register();
+                                }));
+                              });
                             },
                             child: const Text(
                               "Sign up",

@@ -58,7 +58,12 @@ class _StartTripState extends State<StartTrip> {
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.orange)),
                 onPressed: () {
-                  Get.off(() => FreeTrip());
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const FreeTrip();
+                    }));
+                  });
                 },
                 child: const Text("     Free Trip    ")),
             const Spacer(
@@ -68,7 +73,12 @@ class _StartTripState extends State<StartTrip> {
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.orange)),
                 onPressed: () {
-                  Get.to(() => const DestinationTrip());
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const DestinationTrip();
+                    }));
+                  });
                 },
                 child: const Text("Direct Station")),
             const Spacer(

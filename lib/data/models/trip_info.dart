@@ -1,22 +1,26 @@
 class TripInfo {
-  bool? flag;
-  String? startStationName;
-  String? endStationName;
+  String? startStation;
+  String? endStation;
   String? beginTime;
   String? endTime;
+  String? tripDuration;
+  String? tripCost;
 
-  TripInfo(
-      {required this.flag,
-      required this.startStationName,
-      required this.beginTime,
-      required this.endStationName,
-      required this.endTime});
+  TripInfo({
+    required this.startStation,
+    required this.beginTime,
+    required this.endStation,
+    required this.endTime,
+    required this.tripDuration,
+    required this.tripCost,
+  });
 // mapping function from json to model object
   TripInfo.fromJson(Map trip) {
-    flag = trip['flag'];
-    startStationName = trip['begin station Name'];
-    beginTime = trip['begin trip'];
-    endStationName = trip['end station Name'];
-    endTime = trip['end trip'];
+    startStation = trip['startStation'];
+    beginTime = trip['startTime'];
+    endStation = trip['endStation'];
+    endTime = trip['endTime'];
+    tripDuration = trip['tripDuration'];
+    tripCost = trip['tripCost'];
   }
 }

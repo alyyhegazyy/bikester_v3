@@ -19,15 +19,8 @@ import 'data/models/station_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(GetMaterialApp(
+  runApp(const GetMaterialApp(
     home: WelcomeScreen(),
-    //   stationModel: StationModel(
-    //       address: "test",
-    //       stationName: "test name",
-    //       lat: "29.964914",
-    //       long: "31.269994",
-    //       availableBikes: "6"),
-    // ),
     debugShowCheckedModeBanner: false,
   ));
 }

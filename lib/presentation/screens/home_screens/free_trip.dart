@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bikesterr/data/models/station_model.dart';
+import 'package:bikesterr/presentation/screens/home_page.dart';
 import 'package:bikesterr/presentation/screens/home_screens/start_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,13 +12,14 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../constants.dart';
 
 class FreeTrip extends StatefulWidget {
-  const FreeTrip ({Key? key,}) : super(key: key);
+  const FreeTrip({
+    Key? key,
+  }) : super(key: key);
   @override
   State<FreeTrip> createState() => _FreeTripState();
 }
 
 class _FreeTripState extends State<FreeTrip> {
-
   late StationModel nearestStation;
   late Position position;
 
@@ -27,105 +29,123 @@ class _FreeTripState extends State<FreeTrip> {
     // TODO: implement initState
     super.initState();
     firestore.collection("users").doc(currentUser!.uid).update({
-      'freeTrip':true,
+      'freeTrip': true,
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Trip Started,I want to end trip', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-          const SizedBox(height: 20,),
-          ElevatedButton(
-              style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.orange)
-              ),
-              onPressed: (){
-                getNearestStation();
-                String url='https://www.google.com/maps/dir/?api=1&origin=${position.latitude.toString()},${position.longitude.toString()}&destination=${nearestStation.lat.toString()},${nearestStation.long.toString()}&travelmode=driving&dir_action=navigate';
-                _launchURL(url);
-              }, child: const Text('show google map'))
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Trip Started,I want to end trip',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            // ElevatedButton(
+            //     style: const ButtonStyle(
+            //         backgroundColor: MaterialStatePropertyAll(Colors.orange)),
+            //     onPressed: () {
+            //       getNearestStation();
+            //       String url =
+            //           'https://www.google.com/maps/dir/?api=1&origin=${position.latitude.toString()},${position.longitude.toString()}&destination=${nearestStation.lat.toString()},${nearestStation.long.toString()}&travelmode=driving&dir_action=navigate';
+            //       _launchURL(url);
+            //     },
+            //     child: const Text('show google map')),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.orange)),
+                onPressed: () {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const HomePage();
+                    }));
+                  });
+                },
+                child: const Text('end my trip'))
+          ],
+        ),
       ),
-    ),
     );
   }
 
-  Future<void>_launchURL(String url) async {
+  // Future<void> _launchURL(String url) async {
+  //   Uri uri = Uri.parse(url);
+  //   if (await canLaunchUrl(uri)) {
+  //     await launchUrl(uri);
+  //   } else {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text("can\'t launch $url")));
+  //   }
+  //   setState(() {});
+  // }
 
-    Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("can\'t launch $url")));
-    }
-    setState(() {
+  // void getNearestStation() async {
+  //   await getPosition();
 
-    });
-  }
+  //   nearestStation = stations[0];
+  //   double shortestDistance = double.infinity;
 
-  void getNearestStation() async {
-    await getPosition();
+  //   for (StationModel station in stations) {
+  //     double distance = Geolocator.distanceBetween(
+  //       position.latitude,
+  //       position.longitude,
+  //       double.parse(station.lat!),
+  //       double.parse(station.long!),
+  //     );
 
-     nearestStation = stations[0];
-    double shortestDistance = double.infinity;
+  //     if (distance < shortestDistance && station.availableBikes != null) {
+  //       shortestDistance = distance;
+  //       nearestStation = station;
+  //     }
+  //   }
+  // }
 
-    for (StationModel station in stations) {
-      double distance = Geolocator.distanceBetween(
-        position.latitude,
-        position.longitude,
-        double.parse(station.lat!),
-        double.parse(station.long!),
-      );
+  // Future<void> getPosition() async {
+  //   position = await _determinePosition();
+  //   googleMapController?.animateCamera(CameraUpdate.newCameraPosition(
+  //       CameraPosition(
+  //           target: LatLng(position.latitude, position.longitude), zoom: 10)));
+  // }
 
-      if (distance < shortestDistance && station.availableBikes != null) {
-        shortestDistance = distance;
-        nearestStation = station;
-      }
-    }
-  }
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnable;
+  //   LocationPermission locationPermission;
 
-  Future<void> getPosition() async {
+  //   serviceEnable = await Geolocator.isLocationServiceEnabled();
 
-    position = await _determinePosition();
-    googleMapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: LatLng(position.latitude, position.longitude), zoom: 10)));
+  //   try {
+  //     serviceEnable;
+  //   } catch (e) {}
 
-  }
+  //   locationPermission = await Geolocator.checkPermission();
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnable;
-    LocationPermission locationPermission;
+  //   if (locationPermission == LocationPermission.denied) {
+  //     locationPermission = await Geolocator.requestPermission();
 
-    serviceEnable = await Geolocator.isLocationServiceEnabled();
+  //     if (locationPermission == LocationPermission.denied) {
+  //       return Future.error('Location Permission denied');
+  //     }
+  //   }
 
-    try {
-      serviceEnable;
-    } catch (e) {}
+  //   if (locationPermission == LocationPermission.deniedForever) {
+  //     return Future.error('Location Permission are permanently denied');
+  //   }
 
-    locationPermission = await Geolocator.checkPermission();
-
-    if (locationPermission == LocationPermission.denied) {
-      locationPermission = await Geolocator.requestPermission();
-
-      if (locationPermission == LocationPermission.denied) {
-        return Future.error('Location Permission denied');
-      }
-    }
-
-    if (locationPermission == LocationPermission.deniedForever) {
-      return Future.error('Location Permission are permanently denied');
-    }
-
-    Position position = await Geolocator.getCurrentPosition();
-    StreamSubscription<Position> positionStream = Geolocator.getPositionStream().listen((pos) {
-      position= pos;
-    });
-    return position;
-  }
+  //   Position position = await Geolocator.getCurrentPosition();
+  //   StreamSubscription<Position> positionStream =
+  //       Geolocator.getPositionStream().listen((pos) {
+  //     position = pos;
+  //   });
+  //   return position;
+  // }
 }

@@ -1,13 +1,25 @@
+import 'package:bikesterr/data/models/trip_info.dart';
+import 'package:bikesterr/domain/controllers/trip_controller.dart';
 import 'package:bikesterr/presentation/components/appbar.dart';
 import 'package:bikesterr/presentation/components/drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
-class Wallet extends StatelessWidget {
+class Wallet extends StatefulWidget {
   const Wallet({super.key});
 
+  @override
+  State<Wallet> createState() => _WalletState();
+}
+
+class _WalletState extends State<Wallet> {
+  @override
+  num money = 500;
+  var tripController = Get.put(TripController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,39 +32,37 @@ class Wallet extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Center(
-              child: CircleAvatar(
-                radius: 80.0,
-                child: Icon(
-                  Icons.person,
-                  size: 150,
-                ),
-              ),
-            ),
+            const Center(),
             const SizedBox(
               height: 20,
             ),
             Container(
-              // decoration: BoxDecoration(
-              //   color: const Color.fromRGBO(209, 199, 202, 50),
-              //   border: Border.all(width: 2, color: Colors.blueAccent),
-              //   borderRadius: const BorderRadius.all(Radius.circular(35)),
-              // ),
-              width: 340,
-              height: 440,
+              width: 440,
+              height: 750,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 10,
                   ),
+                  Center(
+                    child: Lottie.asset(
+                      'assets/wallet.json',
+                      repeat: true,
+                      reverse: false,
+                      animate: true,
+                      height: 200,
+                      width: 200,
+                      //alignment: Alignment.bottomLeft,
+                    ),
+                  ),
                   const Center(
                     child: Text(
                       'ADD MONEY TO MY WALLET',
                       style: TextStyle(
-                        color: Color.fromRGBO(88, 88, 184, 0.898),
+                        color: Color.fromRGBO(50, 50, 76, 0.898),
                         letterSpacing: 2.0,
-                        fontSize: 19.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -136,21 +146,18 @@ class Wallet extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
-                  const Center(
+                  Center(
                     child: Text(
-                      'Your available balance # EGP ',
-                      style: TextStyle(
-                        color: Color.fromRGBO(209, 199, 202, .9),
+                      'Your available balance $money EGP ',
+                      style: const TextStyle(
+                        color: Color.fromRGBO(200, 119, 143, 0.898),
                         letterSpacing: 2.0,
                         fontSize: 19.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bikesterr/data/models/station_model.dart';
+import 'package:bikesterr/presentation/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -17,9 +18,7 @@ class DestinationTrip extends StatefulWidget {
 }
 
 class _DestinationTripState extends State<DestinationTrip> {
-
-
-  List<String> stationNames=[];
+  List<String> stationNames = [];
 
   GoogleMapController? googleMapController;
   var stationController = Get.put(StationsController());
@@ -33,17 +32,15 @@ class _DestinationTripState extends State<DestinationTrip> {
     super.initState();
     stationController.getStations();
     print(stations.length);
-    for(StationModel stationModel in stations){
-      stationNames.add(stationModel.stationName??'station name');
+    for (StationModel stationModel in stations) {
+      stationNames.add(stationModel.stationName ?? 'stationName');
     }
-    defaultValue=stationNames[0];
+    defaultValue = stationNames[0];
 
     getPosition();
   }
 
-
   Future<void> getPosition() async {
-
     position = await _determinePosition();
     googleMapController?.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -77,14 +74,14 @@ class _DestinationTripState extends State<DestinationTrip> {
     }
 
     Position position = await Geolocator.getCurrentPosition();
-    StreamSubscription<Position> positionStream = Geolocator.getPositionStream().listen((pos) {
-      position= pos;
+    StreamSubscription<Position> xpositionStream =
+        Geolocator.getPositionStream().listen((pos) {
+      position = pos;
     });
     return position;
   }
 
-  Future<void>_launchURL(String url) async {
-
+  Future<void> _launchURL(String url) async {
     Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -92,32 +89,30 @@ class _DestinationTripState extends State<DestinationTrip> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("can\'t launch $url")));
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
-  getDestination(String stationName)async{
-    for (StationModel stationModel in stations)
-      {
-        if (stationModel.stationName==stationName){
-          destinationLoc=stationModel;
-          var querySnapshot=await rides.get();
-          querySnapshot.docs.forEach((doc) {
-            id=doc.id;
-          });
-        }
+  getDestination(String stationName) async {
+    for (StationModel stationModel in stations) {
+      if (stationModel.stationName == stationName) {
+        destinationLoc = stationModel;
+        var querySnapshot = await rides.get();
+        querySnapshot.docs.forEach((doc) {
+          id = doc.id;
+        });
       }
-    String url='https://www.google.com/maps/dir/?api=1&origin=${position.latitude.toString()},${position.longitude.toString()}&destination=${destinationLoc.lat.toString()},${destinationLoc.long.toString()}&travelmode=driving&dir_action=navigate';
+    }
+    String url =
+        'https://www.google.com/maps/dir/?api=1&origin=${position.latitude.toString()},${position.longitude.toString()}&destination=${destinationLoc.lat.toString()},${destinationLoc.long.toString()}&travelmode=driving&dir_action=navigate';
     _launchURL(url);
     // rides.doc(id).update({
     //   'end station Name':destinationLoc.stationName
     // });
   }
+
   @override
   Widget build(BuildContext context) {
-
-   return Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -146,17 +141,30 @@ class _DestinationTripState extends State<DestinationTrip> {
               }).toList(),
             ),
             ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.orange)
-              ),
-                onPressed: (){
-                getDestination(defaultValue);
-
-                }, child: const Text('show google map'))
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.orange)),
+                onPressed: () {
+                  getDestination(defaultValue);
+                },
+                child: const Text('show google map')),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.orange)),
+                onPressed: () {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const HomePage();
+                    }));
+                  });
+                },
+                child: const Text('home screen'))
           ],
         ),
       ),
     );
   }
-
 }

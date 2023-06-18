@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bikesterr/data/models/station_model.dart';
 import 'package:bikesterr/domain/controllers/trip_controller.dart';
+import 'package:bikesterr/presentation/screens/home_screens/end_trip.dart';
 import 'package:bikesterr/presentation/screens/home_screens/start_trip.dart';
 import 'package:bikesterr/presentation/screens/review.dart';
 import 'package:bikesterr/presentation/screens/wallet.dart';
@@ -12,6 +13,7 @@ class ScanQr extends StatefulWidget {
   ScanQr({Key? key, this.model, required StationModel stationModel})
       : super(key: key);
   StationModel? model;
+  var tripCont = Get.put(TripController());
 
   @override
   _ScanQrState createState() => _ScanQrState();
@@ -20,6 +22,7 @@ class ScanQr extends StatefulWidget {
 class _ScanQrState extends State<ScanQr> {
   late MobileScannerController controller = MobileScannerController();
   var tripController = Get.put(TripController());
+
   Barcode? barcode;
   BarcodeCapture? capture;
 
@@ -31,16 +34,20 @@ class _ScanQrState extends State<ScanQr> {
       if (tripStatus == true) {
         tripController.endTrip();
         controller.stop();
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Review();
-        }));
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return EndTrip();
+          }));
+        });
       } else {
         tripController.startTrip();
         controller.stop();
         //Get.to(StartTrip());
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return StartTrip();
-        }));
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return StartTrip();
+          }));
+        });
       }
     });
   }

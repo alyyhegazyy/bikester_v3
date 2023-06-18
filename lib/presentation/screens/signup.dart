@@ -35,7 +35,7 @@ class _RegisterState extends State<Register> {
         key: _formKey,
         child: Stack(children: [
           Container(
-            child: Lottie.network('https://assets6.lottiefiles.com/packages/lf20_zXGe10eVTT.json',
+            child: Lottie.asset('assets/bgAn.json',
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.fill),
@@ -145,26 +145,36 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                       ),
-                      CustomElevatedButton(onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          authCont.signUp(
-                            email: emailCont.text,
-                            password: passwordCont.text,
-                          )
-                            ..then((uid) {
-                              authCont.addUser(
-                                  userName: userNameCont.text,
-                                  dateOfBirth: dateofBirthCont.text,
-                                  phoneNumber: phoneNumberCont.text,
-                                  emergencyNumber: emergencyNumberCont.text,
-                                  bloodGroup: bloodGroupCont.text,
-                                  email: emailCont.text,
-                                  userID: uid);
-                              Get.to(() => Login());
-                            })
-                            ..onError((error, stackTrace) {});
-                        }
-                      },textButton: 'Sign Up',color: Colors.orange, ),
+                      CustomElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            authCont.signUp(
+                              email: emailCont.text,
+                              password: passwordCont.text,
+                            )
+                              ..then((uid) {
+                                authCont.addUser(
+                                    userName: userNameCont.text,
+                                    dateOfBirth: dateofBirthCont.text,
+                                    phoneNumber: phoneNumberCont.text,
+                                    emergencyNumber: emergencyNumberCont.text,
+                                    bloodGroup: bloodGroupCont.text,
+                                    email: emailCont.text,
+                                    userID: uid);
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const Login();
+                                  }));
+                                });
+                              })
+                              ..onError((error, stackTrace) {});
+                          }
+                        },
+                        textButton: 'Sign Up',
+                        color: Colors.orange,
+                      ),
                       const SizedBox(
                         height: 5,
                       ),
@@ -176,10 +186,17 @@ class _RegisterState extends State<Register> {
                           ),
                           TextButton(
                               onPressed: () {
-                                Get.to(() => Login());
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const Login();
+                                  }));
+                                });
                               },
                               child: const Text(
-                                "Log in",style: TextStyle(color: Colors.orange),
+                                "Log in",
+                                style: TextStyle(color: Colors.orange),
                               ))
                         ],
                       )

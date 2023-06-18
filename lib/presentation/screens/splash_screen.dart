@@ -36,8 +36,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             height: 50,
           ),
           Container(
-            child: Lottie.network(
-                'https://assets6.lottiefiles.com/packages/lf20_zXGe10eVTT.json'),
+            child: Lottie.asset('assets/bgAn.json',
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.fill),
           ),
           Container(
             alignment: Alignment.center,
@@ -61,7 +63,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 CustomElevatedButton(
                   color: Colors.orange,
                   onPressed: () {
-                    Get.to(() => const Login());
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const Login();
+                      }));
+                    });
                   },
                   textButton: 'LOG IN',
                 ),
@@ -71,7 +78,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 CustomElevatedButton(
                   color: const Color(0xff616161),
                   onPressed: () {
-                    Get.to(() => const Register());
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const Register();
+                      }));
+                    });
                   },
                   textButton: 'SIGN UP',
                 ),

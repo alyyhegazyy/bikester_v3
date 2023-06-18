@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 // }
 
     stationController.getStations();
+    tripController.getTrips();
     super.initState();
   }
 

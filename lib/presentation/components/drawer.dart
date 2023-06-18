@@ -2,6 +2,7 @@ import 'package:bikesterr/domain/controllers/auth_controller.dart';
 import 'package:bikesterr/presentation/screens/home_page.dart';
 import 'package:bikesterr/presentation/screens/home_screens/profile.dart';
 import 'package:bikesterr/presentation/screens/login.dart';
+import 'package:bikesterr/presentation/screens/trips.dart';
 import 'package:bikesterr/presentation/screens/wallet.dart';
 import 'package:bikesterr/presentation/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,28 +47,44 @@ class MyDrawer extends StatelessWidget {
             title: const Text("Wallet"),
             leading: const Icon(Icons.arrow_circle_right),
             onTap: () {
-              Get.offAll(() => Wallet());
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const Wallet();
+                }));
+              });
             },
           ),
           ListTile(
             title: const Text("Trips"),
             leading: const Icon(Icons.arrow_circle_right),
             onTap: () {
-              //Navigator.pushNamed(context, '/income');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Trips();
+                }));
+              });
             },
           ),
           ListTile(
             title: const Text("Nearest station"),
             leading: const Icon(Icons.arrow_circle_right),
             onTap: () {
-              Get.offAll(() => HomePage());
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const HomePage();
+                }));
+              });
             },
           ),
           ListTile(
             title: const Text("Help"),
             leading: const Icon(Icons.arrow_circle_right),
             onTap: () {
-              Get.offAll(() => Help());
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const Help();
+                }));
+              });
             },
           ),
           ListTile(
@@ -76,7 +93,11 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               authCont.logOut();
               //FirebaseAuth.instance.signOut();
-              Get.offAll(() => Login());
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const Login();
+                }));
+              });
             },
           ),
         ],

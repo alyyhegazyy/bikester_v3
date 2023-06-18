@@ -70,17 +70,20 @@ class _NearestStationState extends State<NearestStation> {
               onPressed: () {
                 print("QR button pressed ....");
                 Future.delayed(Duration.zero, () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ScanQr(
-                      stationModel: model ??
-                          StationModel(
-                              address: "test",
-                              stationName: "test name",
-                              lat: "29.964914",
-                              long: "31.269994",
-                              availableBikes: "6"),
-                    );
-                  }));
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return ScanQr(
+                        stationModel: model ??
+                            StationModel(
+                                address: "test",
+                                stationName: "test name",
+                                lat: "29.964914",
+                                long: "31.269994",
+                                availableBikes: "6"),
+                      );
+                    }));
+                  });
                 });
               },
               backgroundColor: Colors.orange,
@@ -150,7 +153,11 @@ class _NearestStationState extends State<NearestStation> {
         }
         model = nearestStation;
       }
-
+      if (tripController.tripIsRunning.value == false) {
+        tripController.startStation = nearestStation!.stationName;
+      } else {
+        tripController.endStation = nearestStation!.stationName;
+      }
       markers.add(Marker(
         markerId: const MarkerId('1'),
         position: LatLng(double.parse(nearestStation!.lat!),

@@ -19,7 +19,7 @@ class UserInfoField extends StatelessWidget {
         color: Color.fromARGB(255, 247, 238, 241),
         border: Border.all(
             width: 1, color: const Color.fromRGBO(209, 199, 202, 50)),
-        borderRadius: const BorderRadius.all(Radius.circular(35)),
+        borderRadius: const BorderRadius.all(Radius.circular(50)),
       ),
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),

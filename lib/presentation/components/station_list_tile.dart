@@ -43,14 +43,19 @@ class StationListTile extends StatelessWidget {
                   Icons.keyboard_arrow_right,
                   size: 40,
                 ),
-                onTap: () {
-                  Get.to(() async {
-                    // const PickedStation()
-                    var pos = await _determinePosition();
-                    String url =
-                        'https://www.google.com/maps/dir/?api=1&origin=${pos.latitude.toString()},${pos.longitude.toString()}&destination=${stationModel.lat.toString()},${stationModel.long.toString()}&travelmode=driving&dir_action=navigate';
+                onTap: () async {
+                  //const PickedStation();
+                  //var pos = await _determinePosition();
+                  //ps/dir/?api=1&origin=${pos.latitude.toString()},${pos.longitude.toString()}&destination=${stationModel.lat.toString()},${stationModel.long.toString()}&travelmode=driving&dir_action=navigate';
+                  var url =
+                      "https://www.google.com/maps/search/?api=1&query=${stationModel.lat},${stationModel.long}";
+                  if (await canLaunchUrl(Uri.parse(
+                      "https://www.google.com/maps/search/?api=1&query=${stationModel.lat},${stationModel.long}"))) {
+                    Get.snackbar("loading", "opening current station");
                     _launchURL(url);
-                  });
+                  } else {
+                    Get.snackbar("error", "cant access URL");
+                  }
                 },
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 2.5),
